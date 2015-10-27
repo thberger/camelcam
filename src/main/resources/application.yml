@@ -1,0 +1,9 @@
+spring.main.sources: de.thberger.camelcam.WebCamRouter
+
+---
+spring:
+  profiles: isight # activate for macbook camera
+
+cam:
+  width: 1024
+  height: 720

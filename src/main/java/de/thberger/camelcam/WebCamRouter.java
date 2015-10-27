@@ -1,6 +1,7 @@
 package de.thberger.camelcam;
 
 import org.apache.camel.spring.boot.FatJarRouter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
@@ -16,16 +17,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class WebCamRouter extends FatJarRouter {
 
-    /**
-     * Default resolution of Webcam endpoint is 320x240, which throws
-     * error if used on MacBook with iSight camera.
-     */
-    private static final int WIDTH = 1280;
-    private static final int HEIGHT = 720;
+    @Value("${cam.width:320}")
+    public long camWidth;
+
+    @Value("${cam.height:240}")
+    public long camHeight;
 
     @Override
     public void configure() throws Exception {
-        from("webcam:cam?width=" + WIDTH + "&height=" + HEIGHT + "&consumer.delay=1000")
+        from("webcam:cam?width=" + camWidth + "&height=" + camHeight + "&consumer.delay=1000")
                 .to("log://io.rhiot?showAll=true")
                 .to("file://webapp");
     }
