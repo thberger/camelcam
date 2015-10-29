@@ -1,8 +1,14 @@
 package de.thberger.camelcam;
 
+import io.rhiot.component.webcam.WebcamComponent;
+import io.rhiot.component.webcam.WebcamConstants;
+import io.rhiot.utils.process.ProcessManager;
+import org.apache.camel.CamelContext;
 import org.apache.camel.spring.boot.FatJarRouter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
 /**
  * Camel application with webcam route
@@ -22,6 +28,18 @@ public class WebCamRouter extends FatJarRouter {
 
     @Value("${cam.height:240}")
     public long camHeight;
+    
+    @Autowired
+    private CamelContext camelContext;
+    
+    @Bean(name = "webcam")
+    public WebcamComponent getWebcamComponent(){
+
+        WebcamComponent webcam = new WebcamComponent(camelContext);
+        webcam.setV4l2WebcamLoadingCommand("sudo " + webcam.getV4l2WebcamLoadingCommand());
+        return webcam;
+    }
+    
 
     @Override
     public void configure() throws Exception {
