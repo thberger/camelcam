@@ -1,6 +1,7 @@
 package de.thberger.camelcam;
 
 import io.rhiot.component.webcam.WebcamComponent;
+import io.rhiot.component.webcam.WebcamConstants;
 import io.rhiot.utils.process.ProcessManager;
 import org.apache.camel.CamelContext;
 import org.apache.camel.spring.boot.FatJarRouter;
@@ -34,15 +35,9 @@ public class WebCamRouter extends FatJarRouter {
     @Bean(name = "webcam")
     public WebcamComponent getWebcamComponent(){
 
-        WebcamComponent webcam = new WebcamComponent();
-        webcam.setProcessManager(new CustomProcessManager());
-        camelContext.addComponent("webcam", webcam);
+        WebcamComponent webcam = new WebcamComponent(camelContext);
+        webcam.setV4l2WebcamLoadingCommand("sudo " + webcam.getV4l2WebcamLoadingCommand());
         return webcam;
-    }
-    
-    @Bean
-    public ProcessManager getProcessManager(){
-        return new CustomProcessManager();
     }
     
 
