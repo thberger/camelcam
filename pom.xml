@@ -39,13 +39,7 @@
             <artifactId>camel-webcam</artifactId>
             <version>${rhiot-webcam.version}</version>
         </dependency>
-
-        <dependency>
-            <groupId>com.github.sarxos</groupId>
-            <artifactId>v4l4j</artifactId>
-            <version>0.9.1-r507</version>
-        </dependency>
-
+        
         <!-- logging -->
         <dependency>
             <groupId>org.slf4j</groupId>
